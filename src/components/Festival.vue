@@ -7,8 +7,8 @@ import { type FestivalType, type IconStyle } from "../types/types";
 const props = defineProps<{ festival: FestivalType }>();
 
 const iconData = ref<IconStyle>({
-  fill: props.festival?.branding.mainColor,
-  stroke: "#fff",
+  out: props.festival?.branding.mainColor,
+  in: "#fff",
 });
 const navigateToFestival = (url: string) => {
   window.open(url, "_blank");

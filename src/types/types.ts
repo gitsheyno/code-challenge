@@ -19,8 +19,8 @@ export interface FestivalType {
   };
 }
 export type IconStyle = {
-  fill: string;
-  stroke: string;
+  out: string;
+  in: string;
 };
 
 export interface Artist {
