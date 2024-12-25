@@ -2,21 +2,9 @@
 import { ref } from "vue";
 import ArtistInfo from "./ArtistInfo.vue";
 import PlayIcon from "./PlayIcon.vue";
-interface Festival {
-  name: string;
-  Artists: number[];
-  url: string;
-  branding: {
-    mainColor: string;
-    secondaryColor: string;
-  };
-}
-type IconStyle = {
-  fill: string;
-  stroke: string;
-};
+import { type FestivalType, type IconStyle } from "../types/types";
 
-const props = defineProps<{ festival: Festival }>();
+const props = defineProps<{ festival: FestivalType }>();
 
 const iconData = ref<IconStyle>({
   fill: props.festival?.branding.mainColor,

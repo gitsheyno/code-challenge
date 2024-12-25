@@ -23,9 +23,7 @@
   </svg>
 </template>
 <script lang="ts" setup>
-type IconStyle = {
-  fill: string;
-  stroke: string;
-};
+import { type IconStyle } from "../types/types";
+
 defineProps<{ data: IconStyle }>();
 </script>

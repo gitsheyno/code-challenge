@@ -10,18 +10,17 @@
         filter
         optionLabel="name"
         :placeholder="$t('SelectArtists')"
-        :maxSelectedLabels="3"
         class="w-[70%] md:w-full"
       >
         <template #footer>
           <div class="p-3 flex justify-between">
             <Button
-              label="Clear All"
+              :label="$t('ClearAll')"
               severity="danger"
               text
               size="small"
               icon="pi pi-times"
-              @click="selectedArtists = []"
+              @click="handleClearAll"
             />
           </div>
         </template>
@@ -43,36 +42,29 @@ import MultiSelect from "primevue/multiselect";
 import Button from "primevue/button";
 import LanguageSwitcher from "./LanguageSwithcer.vue";
 
-const buttonIsActive = computed(() => selectedArtists.value.length > 0);
-// State variables
-const selectedArtists = ref<{ name: string; id: number }[]>([]);
-const artists = ref([
-  { name: "Afrojack", id: 65102 },
-  { name: "Bring Me The Horizon", id: 66114 },
-  { name: "Electric Callboy", id: 69108 },
-  { name: "FiNCH", id: 70105 },
-  { name: "Greeen", id: 71114 },
-  { name: "Guns N' Roses", id: 71117 },
-  { name: "Iron Maiden", id: 73114 },
-  { name: "K.I.Z", id: 75467 },
-  { name: "Macklemore", id: 77979 },
-  { name: "Papa Roach", id: 80971 },
-  { name: "Rin", id: 82105 },
-  { name: "Sido", id: 83105 },
-  { name: "Slipknot", id: 83108 },
-  { name: "Saberton", id: 83979 },
-]);
+interface Artist {
+  name: string;
+  id: number;
+}
 
-// Emit event to parent
+const buttonIsActive = computed(() => selectedArtists.value.length > 0);
+const selectedArtists = ref<{ name: string; id: number }[]>([]);
+
 const emit = defineEmits<{
-  (event: "submit", artists: { name: string; id: number }[]): void;
+  (event: "submit", artists: Artist[]): void;
 }>();
+
+defineProps<{ artists: Artist[] }>();
 
 const submitSelection = () => {
   emit("submit", selectedArtists.value);
 };
 
-// Limit selection to 3 artists
+const handleClearAll = () => {
+  selectedArtists.value = [];
+  submitSelection();
+};
+
 watch(selectedArtists, (newValue) => {
   if (newValue.length > 3) {
     selectedArtists.value.shift();

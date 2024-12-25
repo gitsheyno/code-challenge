@@ -5,9 +5,9 @@ import LanguageSelector from "./LangSelector.vue";
 const { locale } = useI18n();
 
 const languages = [
-  { name: "English", code: "en", flag: "🇬🇧" },
-  { name: "German", code: "de", flag: "🇩🇪" },
-  { name: "French", code: "fr", flag: "🇫🇷" },
+  { name: "English", code: "en" },
+  { name: "German", code: "de" },
+  { name: "French", code: "fr" },
 ];
 
 const changeLanguage = (langCode: string) => {

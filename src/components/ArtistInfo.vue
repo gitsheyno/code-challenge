@@ -4,17 +4,7 @@ import Accordion from "primevue/accordion";
 import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
-
-interface Song {
-  title: string;
-  length: number;
-  colab?: string;
-}
-
-interface ArtistData {
-  artist: string;
-  Songs: Song[];
-}
+import { type ArtistData } from "../types/types";
 
 const props = defineProps<{ artistId: number }>();
 

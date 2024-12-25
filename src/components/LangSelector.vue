@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from "vue";
 import Select from "primevue/select";
-
-interface Language {
-  name: string;
-  code: string;
-  flag: string;
-}
+import { type Language } from "../types/types";
 
 const props = defineProps<{
   languages: Language[];
