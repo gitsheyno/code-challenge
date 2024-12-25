@@ -1,24 +1,16 @@
 <script lang="ts" setup>
 import { useQuery } from "@tanstack/vue-query";
+import { getArtistData } from "../services/artistsServices";
+import { type ArtistData } from "../types/types";
 import Accordion from "primevue/accordion";
 import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
-import { type ArtistData } from "../types/types";
-
 const props = defineProps<{ artistId: number }>();
 
-const fetchArtistData = async (id: number): Promise<ArtistData> => {
-  const response = await fetch(`http://localhost:3000/artist/${id}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch artist data");
-  }
-  return response.json();
-};
-
-const { data, isError } = useQuery({
+const { data, isError } = useQuery<ArtistData>({
   queryKey: ["artist", props.artistId],
-  queryFn: () => fetchArtistData(props.artistId),
+  queryFn: () => getArtistData(props.artistId),
 });
 </script>
 

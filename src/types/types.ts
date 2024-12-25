@@ -33,9 +33,4 @@ export interface Language {
   code: string;
 }
 
-export interface FestivalData {
-  festivals: FestivalType[];
-  icons: {
-    [key: string]: IconStyle;
-  };
-}
+//
