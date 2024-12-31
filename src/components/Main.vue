@@ -1,16 +1,15 @@
 <template>
-  <div class="">
+  <div>
     <ArtistSelector @submit="handleArtistSelection" :artists="artistList" />
-    <Festivals :selectedArtists="selectedArtists" />
+    <FestivalsWrapper :selectedArtists="selectedArtists" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import ArtistSelector from "./SelectAtrists.vue";
-import Festivals from "./Festivals.vue";
 import { artists } from "../data/artists";
-
+import FestivalsWrapper from "./FestivalsWrapper.vue";
 const selectedArtists = ref<{ name: string; id: number }[]>([]);
 const artistList = ref(artists);
 
