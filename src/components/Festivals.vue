@@ -1,42 +1,30 @@
 <script lang="ts" setup>
-import { watch } from "vue";
-import { useQuery } from "@tanstack/vue-query";
-import { getFestivalsByArtists } from "../services/festivalServices";
 import Festival from "./Festival.vue";
-import { type Artist, type FestivalType } from "../types/types";
 import Spinner from "./Spinner.vue";
+import { computed } from "vue";
+import { type Artist, type FestivalType } from "../types/types";
 
-const props = defineProps<{ selectedArtists: Artist[] }>();
+type Props = {
+  festivals?: FestivalType[];
+  isLoading?: boolean;
+  selectedArtists?: Artist[];
+};
 
-watch(
-  () => props.selectedArtists,
-  () => {
-    if (props.selectedArtists?.length > 0) {
-      fetchFestivalsQuery.refetch();
-    }
-  },
-  { immediate: true }
-);
+const props = defineProps<Props>();
 
-const fetchFestivalsQuery = useQuery<FestivalType[]>({
-  queryKey: ["festivals", props.selectedArtists],
-  queryFn: () =>
-    getFestivalsByArtists(props.selectedArtists.map((artist) => artist.id)),
-  enabled: false,
-});
-
-const { data, isLoading } = fetchFestivalsQuery;
+const fetchedFestivals = computed(() => props.festivals ?? []);
+const receivedSelectedArtists = computed(() => props.selectedArtists ?? []);
 </script>
 
 <template>
   <div
-    v-if="props.selectedArtists.length > 0"
-    class="max-w-sm flex-wrap lg:max-w-4xl 2xl:max-w-6xl mx-auto px-8 flex items-starts justify-center gap-4 gap-y-12 py-8"
+    v-if="receivedSelectedArtists.length"
+    class="max-w-sm flex-wrap lg:max-w-4xl 2xl:max-w-6xl mx-auto px-8 flex items-start justify-center gap-4 gap-y-12 py-8"
   >
-    <div v-if="isLoading"><Spinner /></div>
+    <div v-if="props.isLoading"><Spinner /></div>
     <div
-      v-else-if="data && data.length > 0"
-      v-for="festival in data"
+      v-else-if="fetchedFestivals.length > 0"
+      v-for="festival in fetchedFestivals"
       :key="festival.name"
       class="flex flex-col items-center"
     >

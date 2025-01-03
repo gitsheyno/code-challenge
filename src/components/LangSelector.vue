@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { ref } from "vue";
 import Select from "primevue/select";
 import { type Language } from "../types/types";
 
-const props = defineProps<{
-  languages: Language[];
-}>();
-
+const props = defineProps<{ languages: { name: string; code: string }[] }>();
 const emit = defineEmits<{
   (event: "language-change", langCode: string): void;
 }>();
 
-const selectedLanguage = ref(props.languages[0]);
+const selectedLanguage = ref();
+
+if (props.languages) {
+  selectedLanguage.value = props.languages[0];
+}
 
 const emitLanguageChange = (newLanguage: Language) => {
   selectedLanguage.value = newLanguage;
@@ -22,6 +23,8 @@ const emitLanguageChange = (newLanguage: Language) => {
 <template>
   <div class="language-switcher">
     <Select
+      data-test="selectLanguage"
+      name="selectLanguage"
       v-model="selectedLanguage"
       :options="props.languages"
       optionLabel="name"
