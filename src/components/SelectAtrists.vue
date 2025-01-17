@@ -9,13 +9,13 @@
         :options="artists"
         filter
         optionLabel="name"
-        :placeholder="$t('SelectArtists')"
+        :placeholder="translate('SelectArtists')"
         class="w-[70%] md:w-full"
       >
         <template #footer>
           <div class="p-3 flex justify-between">
             <Button
-              :label="$t('ClearAll')"
+              :label="translate('ClearAll')"
               severity="danger"
               text
               size="small"
@@ -28,7 +28,7 @@
 
       <Button
         @click="submitSelection"
-        :label="$t('Submit')"
+        :label="translate('Submit')"
         :disabled="!buttonIsActive"
       />
     </div>
@@ -41,30 +41,33 @@ import { ref, watch, computed } from "vue";
 import MultiSelect from "primevue/multiselect";
 import Button from "primevue/button";
 import LanguageSwitcher from "./LanguageSwithcer.vue";
+import { useTranslate } from "./compsoables/useTranslate";
+import type { Artist } from "../types/types";
 
-interface Artist {
-  name: string;
-  id: number;
-}
+const { translate } = useTranslate();
 
 const buttonIsActive = computed(() => selectedArtists.value.length > 0);
-const selectedArtists = ref<{ name: string; id: number }[]>([]);
+const selectedArtists = ref<Artist[]>([]);
 
 const emit = defineEmits<{
   (event: "submit", artists: Artist[]): void;
 }>();
 
-defineProps<{ artists: Artist[] }>();
+defineProps<{ artists: Artist[] | undefined }>();
 
 const submitSelection = () => {
   emit("submit", selectedArtists.value);
 };
-
 const handleClearAll = () => {
   selectedArtists.value = [];
   submitSelection();
 };
-
+defineExpose({
+  submitSelection,
+  selectedArtists,
+  buttonIsActive,
+  handleClearAll,
+});
 watch(selectedArtists, (newValue) => {
   if (newValue.length > 3) {
     selectedArtists.value.shift();

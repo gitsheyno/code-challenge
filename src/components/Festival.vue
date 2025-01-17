@@ -3,6 +3,7 @@ import { ref } from "vue";
 import ArtistInfo from "./ArtistInfo.vue";
 import PlayIcon from "./PlayIcon.vue";
 import { type FestivalType, type IconStyle } from "../types/types";
+import { useTranslate } from "./compsoables/useTranslate";
 
 const props = defineProps<{ festival: FestivalType }>();
 
@@ -10,6 +11,9 @@ const iconData = ref<IconStyle>({
   out: props.festival?.branding.mainColor,
   in: "#fff",
 });
+
+const { translate } = useTranslate();
+
 const navigateToFestival = (url: string) => {
   window.open(url, "_blank");
 };
@@ -26,7 +30,7 @@ const navigateToFestival = (url: string) => {
         <PlayIcon :data="iconData" />
       </div>
       <div class="flex flex-col items-center mt-8">
-        <p class="text-sm">{{ $t("FestivalTitle") }}</p>
+        <p class="text-sm">{{ translate("FestivalTitle") }}</p>
         <div class="py-4 w-full">
           <div v-for="name in festival.Artists">
             <ArtistInfo :artistId="name" />
