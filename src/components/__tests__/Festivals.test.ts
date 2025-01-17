@@ -44,16 +44,20 @@ describe("Festivals.vue", () => {
   });
 
   it("renders a loading spinner when `isLoading` is true", () => {
-    props.isLoading = true;
-    const wrapper = mount(Festivals, { props, ...globalConfig });
+    const wrapper = mount(Festivals, {
+      props: { ...props, isLoading: true },
+      ...globalConfig,
+    });
     expect(wrapper.findComponent(Spinner).exists()).toBe(true);
     expect(wrapper.text()).not.toContain("Error fetching festivals");
     expect(wrapper.findAllComponents(Festival)).toHaveLength(0);
   });
 
   it("renders festivals when `isLoading` is false and `festivals` is provided", () => {
-    props.isLoading = false;
-    const wrapper = mount(Festivals, { props, ...globalConfig });
+    const wrapper = mount(Festivals, {
+      props: { ...props, isLoading: false },
+      ...globalConfig,
+    });
     const festivalComponents = wrapper.findAllComponents(Festival);
 
     expect(festivalComponents).toHaveLength(2);
@@ -66,19 +70,39 @@ describe("Festivals.vue", () => {
   });
 
   it("renders an error message when `isLoading` is false and no festivals are provided", () => {
-    props.isLoading = false;
-    props.festivals = [];
-    const wrapper = mount(Festivals, { props, ...globalConfig });
+    const wrapper = mount(Festivals, {
+      props: { ...props, isLoading: false, festivals: [] },
+      ...globalConfig,
+    });
 
     expect(wrapper.text()).toContain("Error fetching festivals");
     expect(wrapper.findAllComponents(Festival)).toHaveLength(0);
   });
 
   it("renders a prompt to search when no `selectedArtists` are provided", () => {
-    props.selectedArtists = [];
-    const wrapper = mount(Festivals, { props, ...globalConfig });
+    const wrapper = mount(Festivals, {
+      porps: {
+        ...props,
+        SelectAtrists: [],
+      },
+      ...globalConfig,
+    });
 
     expect(wrapper.text()).toContain("Search for your Festivals");
+    expect(wrapper.findAllComponents(Festival)).toHaveLength(0);
+  });
+
+  it("handles undefined `festivals` gracefully", () => {
+    const wrapper = mount(Festivals, {
+      props: {
+        ...props,
+        isLoading: false,
+        festivals: undefined,
+      },
+      ...globalConfig,
+    });
+
+    expect(wrapper.text()).toContain("Error fetching festivals");
     expect(wrapper.findAllComponents(Festival)).toHaveLength(0);
   });
 });

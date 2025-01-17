@@ -42,11 +42,7 @@ import MultiSelect from "primevue/multiselect";
 import Button from "primevue/button";
 import LanguageSwitcher from "./LanguageSwithcer.vue";
 import { useTranslate } from "./compsoables/useTranslate";
-
-interface Artist {
-  name: string;
-  id: number;
-}
+import type { Artist } from "../types/types";
 
 const { translate } = useTranslate();
 

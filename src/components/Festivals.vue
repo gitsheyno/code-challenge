@@ -22,14 +22,15 @@ const receivedSelectedArtists = computed(() => props.selectedArtists ?? []);
     class="max-w-sm flex-wrap lg:max-w-4xl 2xl:max-w-6xl mx-auto px-8 flex items-start justify-center gap-4 gap-y-12 py-8"
   >
     <div v-if="props.isLoading"><Spinner /></div>
-    <div
-      v-else-if="fetchedFestivals.length > 0"
-      v-for="festival in fetchedFestivals"
-      :key="festival.name"
-      class="flex flex-col items-center"
-    >
-      <Festival :festival="festival" />
-    </div>
+    <template v-else-if="fetchedFestivals.length > 0">
+      <div
+        v-for="festival in fetchedFestivals"
+        :key="festival.name"
+        class="flex flex-col items-center"
+      >
+        <Festival :festival="festival" />
+      </div>
+    </template>
     <div v-else>Error fetching festivals</div>
   </div>
   <div v-else class="text-center mt-10">

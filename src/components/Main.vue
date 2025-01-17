@@ -7,11 +7,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import ArtistSelector from "./SelectAtrists.vue";
+import type { Artist } from "../types/types";
 import { artists } from "../data/artists";
+import ArtistSelector from "./SelectAtrists.vue";
 import FestivalsWrapper from "./FestivalsWrapper.vue";
-const selectedArtists = ref<{ name: string; id: number }[]>([]);
-const artistList = ref(artists);
+
+const selectedArtists = ref<Artist[]>([]);
+const artistList = ref<Artist[]>(artists);
 
 const handleArtistSelection = (artists: { name: string; id: number }[]) => {
   selectedArtists.value = artists;
